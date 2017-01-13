@@ -6,14 +6,19 @@ using System.Linq;
 using System.Web;
 
 namespace CeresAPI.Models
+    
 {
     public class ObjectIdConverter : JsonConverter
     {
+        
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(ObjectId);
         }
-
+        public bool Jjkk(Type objectType)
+        {
+            return objectType == typeof(ObjectId);
+        }
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType != JsonToken.String)

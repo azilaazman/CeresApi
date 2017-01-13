@@ -59,6 +59,32 @@ namespace CeresAPI.Controllers
 
         /*IN-PRODUCTION by Azila*/
         [HttpGet]
+        [Route("api/v1/GetAllPlantsValue/{id}")]
+        public List<PlantData> getAllPlantsValue(string id)
+        {
+            try
+            {
+                MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
+                IMongoDatabase db = client.GetDatabase("ceres_unit1");
+
+                List<PlantData> plantList = new List<PlantData>();
+                var plantInfo = db.GetCollection<PlantData>("plantData");
+
+                var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
+                //var fields = Builders<PlantData>.Projection.Include(a => a.plant_id);
+                var results = plantInfo.Find(condition).ToList();
+
+                return results;
+
+            }
+
+            catch
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
         [Route("api/v1/GetAllPlantsTemp/{id}")]
         public List<PlantData> getAllPlantsTemp(string id)
         {

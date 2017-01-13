@@ -46,7 +46,7 @@ namespace CeresAPI.Controllers
             var plantInfo = db.GetCollection<PlantData>("plantData");
             var filter = Builders<PlantData>.Filter.Eq("plant_id", id);
             await plantInfo.Find(filter)
-                //=> is foreach
+                //=> is foreach 
                 .ForEachAsync(data => plant_list.Add(data)); //get all documents in the collection
             //foreach (PlantData plant in allPlants)
             //{
@@ -59,8 +59,34 @@ namespace CeresAPI.Controllers
 
         /*IN-PRODUCTION by Azila*/
         [HttpGet]
-        [Route("api/v1/GetAllPlantsTemp")]
-        public List<PlantData> getAllPlantsTemp()
+        [Route("api/v1/GetAllPlantsValue/{id}")]
+        public List<PlantData> getAllPlantsValue(string id)
+        {
+            try
+            {
+                MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
+                IMongoDatabase db = client.GetDatabase("ceres_unit1");
+
+                List<PlantData> plantList = new List<PlantData>();
+                var plantInfo = db.GetCollection<PlantData>("plantData");
+
+                var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
+                //var fields = Builders<PlantData>.Projection.Include(a => a.plant_id);
+                var results = plantInfo.Find(condition).ToList();
+
+                return results;
+
+            }
+
+            catch
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
+        [Route("api/v1/GetAllPlantsTemp/{id}")]
+        public List<PlantData> getAllPlantsTemp(string id)
         {
             try
             {
@@ -70,7 +96,7 @@ namespace CeresAPI.Controllers
                 List<PlantData> plantList = new List<PlantData>();
                 var plantInfo = db.GetCollection<PlantData>("plantData");
                
-                var condition = Builders<PlantData>.Filter.Exists(p => p.temp);
+                var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
                 var fields = Builders<PlantData>.Projection.Include(p => p.temp).Include(a => a.plant_id);
                 var results = plantInfo.Find(condition).Project<PlantData>(fields).ToList();
 
@@ -85,8 +111,8 @@ namespace CeresAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/v1/GetAllPlantsWater")]
-        public List<PlantData> getAllPlantsWater()
+        [Route("api/v1/GetAllPlantsWater/{id}")]
+        public List<PlantData> getAllPlantsWater(string id)
         {
             try
             {
@@ -96,7 +122,7 @@ namespace CeresAPI.Controllers
                 List<PlantData> plantList = new List<PlantData>();
                 var plantInfo = db.GetCollection<PlantData>("plantData");
 
-                var condition = Builders<PlantData>.Filter.Exists(p => p.water);
+                var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
                 var fields = Builders<PlantData>.Projection.Include(p => p.water).Include(a => a.plant_id);
                 var results = plantInfo.Find(condition).Project<PlantData>(fields).ToList();
 
@@ -111,8 +137,8 @@ namespace CeresAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/v1/GetAllPlantsHumid")]
-        public List<PlantData> getAllPlantsHumid()
+        [Route("api/v1/GetAllPlantsHumid/{id}")]
+        public List<PlantData> getAllPlantsHumid(string id)
         {
             try
             {
@@ -122,7 +148,7 @@ namespace CeresAPI.Controllers
                 List<PlantData> plantList = new List<PlantData>();
                 var plantInfo = db.GetCollection<PlantData>("plantData");
 
-                var condition = Builders<PlantData>.Filter.Exists(p => p.humid);
+                var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
                 var fields = Builders<PlantData>.Projection.Include(p => p.humid).Include(a => a.plant_id);
                 var results = plantInfo.Find(condition).Project<PlantData>(fields).ToList();
 
@@ -137,8 +163,8 @@ namespace CeresAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/v1/GetAllPlantsLight")]
-        public List<PlantData> getAllPlantsLight()
+        [Route("api/v1/GetAllPlantsLight/{id}")]
+        public List<PlantData> getAllPlantsLight(string id)
         {
             try
             {
@@ -148,7 +174,7 @@ namespace CeresAPI.Controllers
                 List<PlantData> plantList = new List<PlantData>();
                 var plantInfo = db.GetCollection<PlantData>("plantData");
 
-                var condition = Builders<PlantData>.Filter.Exists(p => p.light);
+                var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
                 var fields = Builders<PlantData>.Projection.Include(p => p.light).Include(a => a.plant_id);
                 var results = plantInfo.Find(condition).Project<PlantData>(fields).ToList();
 
@@ -163,8 +189,8 @@ namespace CeresAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/v1/GetAllPlantsPower")]
-        public List<PlantData> getAllPlants()
+        [Route("api/v1/GetAllPlantsPower/{id}")]
+        public List<PlantData> getAllPlantsPower(string id)
         {
             try
             {
@@ -174,7 +200,7 @@ namespace CeresAPI.Controllers
                 List<PlantData> plantList = new List<PlantData>();
                 var plantInfo = db.GetCollection<PlantData>("plantData");
 
-                var condition = Builders<PlantData>.Filter.Exists(p => p.power);
+                var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
                 var fields = Builders<PlantData>.Projection.Include(p => p.power).Include(a => a.plant_id);
                 var results = plantInfo.Find(condition).Project<PlantData>(fields).ToList();
 

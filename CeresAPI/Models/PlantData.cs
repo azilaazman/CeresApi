@@ -13,7 +13,7 @@ namespace CeresAPI.Models
         [BsonId]
         public ObjectId _id { get; set; }
         [Required]
-        public String plant_id { get; set; }
+        public string plant_id { get; set; }
         [Required]
         public double temp { get; set; }
         [Required]

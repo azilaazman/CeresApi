@@ -1,6 +1,4 @@
-﻿<h2>Welcome to ASP.NET MVC @ViewData["Version"] on @ViewData["Runtime"]!</h2>
-
-@section scripts {
+﻿@section scripts {
     
     <!--Reference the SignalR library. -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
@@ -11,21 +9,21 @@
     <script src="~/signalr/hubs"></script>
 
     <script>
-        $(function () {
+        $(function (unit, account) {
             // Reference the auto-generated proxy for the hub.  
             var chartHub = $.connection.chartHub;
 
             //Call InitChartData     
             $.connection.hub.start().done(function () {
-                chartHub.server.initChartData();
+                chartHub.server.initChartData(unit, account);
 
             });
 
             //Call to Update LineChart from Server    
-            chartHub.client.updateChart = function (line_data, pie_data) {
-                UpdateLineChart(line_data);  //Call the LineChart Update method    
-                UpdatePieChart(pie_data);    //Call the PieChart Update method    
-            };
+            //chartHub.client.updateChart = function (line_data) {
+            //    UpdateLineChart(line_data);  //Call the LineChart Update method    
+            //    //UpdatePieChart(pie_data);    //Call the PieChart Update method    
+            //};
 
         });
     </script>

@@ -15,10 +15,6 @@ namespace CeresAPI.Models
         {
             return objectType == typeof(ObjectId);
         }
-        public bool Jjkk(Type objectType)
-        {
-            return objectType == typeof(ObjectId);
-        }
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType != JsonToken.String)

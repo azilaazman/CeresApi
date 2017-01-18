@@ -13,6 +13,29 @@ namespace CeresAPI.Controllers
 {
     public class plantController : ApiController
     {
+
+        private static string GetUserIPAddress()
+        {
+            var context = System.Web.HttpContext.Current;
+            string ip = String.Empty;
+
+            if (context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"] != null)
+                ip = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();
+            else if (!String.IsNullOrWhiteSpace(context.Request.UserHostAddress))
+                ip = context.Request.UserHostAddress;
+
+            if (ip == "::1")
+                ip = "127.0.0.1";
+
+            return ip;
+        }
+        [HttpGet]
+        [Route("api/getip")]
+        public string GetIp()
+        {
+            return GetUserIPAddress();
+        }
+
         // GET api/v2/products
         [HttpGet]
         [Route("api/v1/getPlantInfo")]
@@ -70,7 +93,8 @@ namespace CeresAPI.Controllers
                 List<PlantData> plantList = new List<PlantData>();
                 var plantInfo = db.GetCollection<PlantData>("plantData");
 
-                var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
+                var condition = Builders<PlantData>.Filter.Eq("plant_id", id); //get requested unit/plant info
+                //condition = condition & Builders<PlantData>.Filter.Eq("acc_id", acc); //makes sure that this belongs to the user
                 //var fields = Builders<PlantData>.Projection.Include(a => a.plant_id);
                 var results = plantInfo.Find(condition).ToList();
 
@@ -110,109 +134,109 @@ namespace CeresAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("api/v1/GetAllPlantsWater/{id}")]
-        public List<PlantData> getAllPlantsWater(string id)
-        {
-            try
-            {
-                MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
-                IMongoDatabase db = client.GetDatabase("ceres_unit1");
+        //[HttpGet]
+        //[Route("api/v1/GetAllPlantsWater/{id}")]
+        //public List<PlantData> getAllPlantsWater(string id)
+        //{
+        //    try
+        //    {
+        //        MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
+        //        IMongoDatabase db = client.GetDatabase("ceres_unit1");
 
-                List<PlantData> plantList = new List<PlantData>();
-                var plantInfo = db.GetCollection<PlantData>("plantData");
+        //        List<PlantData> plantList = new List<PlantData>();
+        //        var plantInfo = db.GetCollection<PlantData>("plantData");
 
-                var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
-                var fields = Builders<PlantData>.Projection.Include(p => p.water).Include(a => a.plant_id);
-                var results = plantInfo.Find(condition).Project<PlantData>(fields).ToList();
+        //        var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
+        //        var fields = Builders<PlantData>.Projection.Include(p => p.water).Include(a => a.plant_id);
+        //        var results = plantInfo.Find(condition).Project<PlantData>(fields).ToList();
 
-                return results;
+        //        return results;
 
-            }
+        //    }
 
-            catch
-            {
-                throw;
-            }
-        }
+        //    catch
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        [HttpGet]
-        [Route("api/v1/GetAllPlantsHumid/{id}")]
-        public List<PlantData> getAllPlantsHumid(string id)
-        {
-            try
-            {
-                MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
-                IMongoDatabase db = client.GetDatabase("ceres_unit1");
+        //[HttpGet]
+        //[Route("api/v1/GetAllPlantsHumid/{id}")]
+        //public List<PlantData> getAllPlantsHumid(string id)
+        //{
+        //    try
+        //    {
+        //        MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
+        //        IMongoDatabase db = client.GetDatabase("ceres_unit1");
 
-                List<PlantData> plantList = new List<PlantData>();
-                var plantInfo = db.GetCollection<PlantData>("plantData");
+        //        List<PlantData> plantList = new List<PlantData>();
+        //        var plantInfo = db.GetCollection<PlantData>("plantData");
 
-                var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
-                var fields = Builders<PlantData>.Projection.Include(p => p.humid).Include(a => a.plant_id);
-                var results = plantInfo.Find(condition).Project<PlantData>(fields).ToList();
+        //        var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
+        //        var fields = Builders<PlantData>.Projection.Include(p => p.humid).Include(a => a.plant_id);
+        //        var results = plantInfo.Find(condition).Project<PlantData>(fields).ToList();
 
-                return results;
+        //        return results;
 
-            }
+        //    }
 
-            catch
-            {
-                throw;
-            }
-        }
+        //    catch
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        [HttpGet]
-        [Route("api/v1/GetAllPlantsLight/{id}")]
-        public List<PlantData> getAllPlantsLight(string id)
-        {
-            try
-            {
-                MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
-                IMongoDatabase db = client.GetDatabase("ceres_unit1");
+        //[HttpGet]
+        //[Route("api/v1/GetAllPlantsLight/{id}")]
+        //public List<PlantData> getAllPlantsLight(string id)
+        //{
+        //    try
+        //    {
+        //        MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
+        //        IMongoDatabase db = client.GetDatabase("ceres_unit1");
 
-                List<PlantData> plantList = new List<PlantData>();
-                var plantInfo = db.GetCollection<PlantData>("plantData");
+        //        List<PlantData> plantList = new List<PlantData>();
+        //        var plantInfo = db.GetCollection<PlantData>("plantData");
 
-                var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
-                var fields = Builders<PlantData>.Projection.Include(p => p.light).Include(a => a.plant_id);
-                var results = plantInfo.Find(condition).Project<PlantData>(fields).ToList();
+        //        var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
+        //        var fields = Builders<PlantData>.Projection.Include(p => p.light).Include(a => a.plant_id);
+        //        var results = plantInfo.Find(condition).Project<PlantData>(fields).ToList();
 
-                return results;
+        //        return results;
 
-            }
+        //    }
 
-            catch
-            {
-                throw;
-            }
-        }
+        //    catch
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        [HttpGet]
-        [Route("api/v1/GetAllPlantsPower/{id}")]
-        public List<PlantData> getAllPlantsPower(string id)
-        {
-            try
-            {
-                MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
-                IMongoDatabase db = client.GetDatabase("ceres_unit1");
+        //[HttpGet]
+        //[Route("api/v1/GetAllPlantsPower/{id}")]
+        //public List<PlantData> getAllPlantsPower(string id)
+        //{
+        //    try
+        //    {
+        //        MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
+        //        IMongoDatabase db = client.GetDatabase("ceres_unit1");
 
-                List<PlantData> plantList = new List<PlantData>();
-                var plantInfo = db.GetCollection<PlantData>("plantData");
+        //        List<PlantData> plantList = new List<PlantData>();
+        //        var plantInfo = db.GetCollection<PlantData>("plantData");
 
-                var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
-                var fields = Builders<PlantData>.Projection.Include(p => p.power).Include(a => a.plant_id);
-                var results = plantInfo.Find(condition).Project<PlantData>(fields).ToList();
+        //        var condition = Builders<PlantData>.Filter.Eq("plant_id", id);
+        //        var fields = Builders<PlantData>.Projection.Include(p => p.power).Include(a => a.plant_id);
+        //        var results = plantInfo.Find(condition).Project<PlantData>(fields).ToList();
 
-                return results;
+        //        return results;
 
-            }
+        //    }
 
-            catch
-            {
-                throw;
-            }
-        }
+        //    catch
+        //    {
+        //        throw;
+        //    }
+        //}
 
         [HttpPost]
         [Route("api/v1/AddPlantData")]

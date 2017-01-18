@@ -5,7 +5,7 @@ var lineChartArray = {
     labels: [0],
     datasets: [
      {
-         label: "Temperature",
+         label: [0],
          fill: false,
          lineTension: 0.1,
          backgroundColor: "rgba(75,192,192,0.4)",
@@ -100,8 +100,8 @@ function UpdateLineChart(data) {
     lineChartArray.datasets[0].data = data.lineChartArray;
     lineChartArray.labels = data.lineChartTimeArray;
     //Update the Line Chart    
-    var canvasForLineChart = document.getElementById("canvasForLineChart");
-    var context2DLine = canvasForLineChart.getContext("2d");
+    //var canvasForLineChart = document.getElementById("canvasForLineChart");
+    //var context2DLine = canvasForLineChart.getContext("2d");
     //var realChart = new Chart(context2DLine).Line(lineChartArray);    
     var newChart = new Chart(context2DLine, {
         type: "line",

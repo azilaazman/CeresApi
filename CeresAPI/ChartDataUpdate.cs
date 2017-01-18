@@ -113,7 +113,7 @@ namespace CeresAPI
     {
         // Singleton instance    
         private readonly static Lazy<ChartDataUpdate> _instance = new Lazy<ChartDataUpdate>(() => new ChartDataUpdate());
-        // Send Data every 10 seconds    
+        // Send Data every 5 seconds    
         readonly int _updateInterval = 5000;
         //Timer Class    
         private Timer _timer;
@@ -161,7 +161,7 @@ namespace CeresAPI
         {
             lineChart.SetLineChartData();
             pieChart.SetPieChartData();
-            GetAllClients().All.UpdateChart(lineChart, pieChart);
+            GetAllClients().All.UpdateChart(lineChart);
 
         }
 

@@ -24,7 +24,7 @@ namespace CeresAPI
             PieChart pieChart = new PieChart();
             lineChart.SetLineChartData();
             pieChart.SetPieChartData();
-            Clients.All.UpdateChart(lineChart, pieChart);
+            Clients.All.UpdateChart(lineChart);
 
 
             //Call GetChartData to send Chart data every 5 seconds    

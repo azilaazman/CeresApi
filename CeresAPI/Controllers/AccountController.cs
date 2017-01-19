@@ -1,5 +1,6 @@
 ﻿using CeresAPI.Models;
 using CeresAPI.Models.AccountModel;
+using CeresAPI.Models.AccountModel.login;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
@@ -34,7 +35,7 @@ namespace CeresAPI.Controllers
         [Route("api/Account/Register")]
         [AllowAnonymous]
         [System.Web.Mvc.ValidateAntiForgeryToken]
-        public async Task<HttpResponseMessage> Register([FromBody] Account account)
+        public async Task<HttpResponseMessage> Register([FromBody] CreateAccount account)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +68,7 @@ namespace CeresAPI.Controllers
                         createAccount.password = saltedPassword;
                         createAccount.name = account.name;
                         createAccount.email = account.email;
-                        createAccount.API_Key = Helper.GeneratePassword(35);
+                        createAccount.unit_id = account.unit_id;
                         //send to mongo
                         var createAccountInfo = db.GetCollection<CreateAccount>("account");
                         await createAccountInfo.InsertOneAsync(createAccount);
@@ -116,78 +117,28 @@ namespace CeresAPI.Controllers
 
         }
 
-        private string GetToken(string url, string userName, string password)
-        {
-            var pairs = new List<KeyValuePair<string, string>>
-                    {
-                        new KeyValuePair<string, string>( "grant_type", "password" ),
-                        new KeyValuePair<string, string>( "username", userName ),
-                        new KeyValuePair<string, string> ( "Password", password )
-                    };
-            var content = new FormUrlEncodedContent(pairs);
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-            using (var client = new HttpClient())
-            {
-                var response = client.PostAsync(url + "Token", content).Result;
-                return response.Content.ReadAsStringAsync().Result;
-            }
-        }
-
         [HttpPost]
         [AllowAnonymous]
         [System.Web.Mvc.ValidateAntiForgeryToken]
-        public async Task<HttpResponseMessage> Login([FromBody] Login loginInfo)
+        public List<CreateAccount> Login([FromBody] Login loginInfo)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                String ipaddr = GetUserIPAddress();
-                IMongoDatabase db = Connection.getMLabConnection();
-                List<CreateAccount> accountList = new List<CreateAccount>();
-                var accountInfo = db.GetCollection<CreateAccount>("account");
-                // if username exist
-                var condition = Builders<CreateAccount>.Filter.Eq("email", loginInfo.email);
-                var results = accountInfo.Find(condition).ToList();
-                Console.WriteLine("result" + results.ToJson());
-                return Request.CreateResponse(HttpStatusCode.Continue, ipaddr);
+                return null;
             }
+            IMongoDatabase db = Connection.getMLabConnection();
+            List<CreateAccount> accountList = new List<CreateAccount>();
+            var accountInfo = db.GetCollection<CreateAccount>("account");
+            var currentPlantData = db.GetCollection<CurrentPlantData>("currentPlantData");
 
-            // Require the user to have a confirmed email before they can log on.
-            // var user = await UserManager.FindByNameAsync(model.Email);
+            // if username exist
+            var condition = Builders<CreateAccount>.Filter.Eq("email", loginInfo.email);
+            var fields = Builders<CreateAccount>.Projection.Include(p => p.name).Include(p => p._id).Include(p => p.unit_id);
+            var results = accountInfo.Find(condition).Project<CreateAccount>(fields).ToList();
+            Console.WriteLine("result" + results.ToJson());
 
-            //connect to db
-            //var user = loginInfo.Find(loginInfo.email, loginInfo.password);
-            //if (user != null)
-            //{
-            //    if (!await UserManager.IsEmailConfirmedAsync(user.Id))
-            //    {
-            //        string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account-Resend");
+            return results;
 
-            //        // Uncomment to debug locally  
-            //        ViewBag.Link = callbackUrl;
-            //        ViewBag.errorMessage = "You must have a confirmed email to log on. "
-            //                             + "The confirmation token has been resent to your email account.";
-            //        return View("Error");
-            //    }
-            //}
-
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            //    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            //    switch (result)
-            //    {
-            //        case SignInStatus.Success:
-            //            return RedirectToLocal(returnUrl);
-            //        case SignInStatus.LockedOut:
-            //            return View("Lockout");
-            //        case SignInStatus.RequiresVerification:
-            //            return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-            //        case SignInStatus.Failure:
-            //        default:
-            //            ModelState.AddModelError("", "Invalid login attempt.");
-            //            return View(model);
-            //    }
-            //}
-            return Request.CreateResponse(HttpStatusCode.Accepted, "ok");
         }
     }
 }

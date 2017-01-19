@@ -38,7 +38,7 @@ namespace CeresAPI.Models
             byte[] dst = new byte[src.Length + bytes.Length];
             System.Buffer.BlockCopy(src, 0, dst, 0, src.Length);
             System.Buffer.BlockCopy(bytes, 0, dst, src.Length, bytes.Length);
-            HashAlgorithm algorithm = HashAlgorithm.Create("SHA1");
+            SHA256 algorithm = SHA256Managed.Create();
             byte[] inArray = algorithm.ComputeHash(dst);
             //return Convert.ToBase64String(inArray);    
             return EncodePasswordMd5(Convert.ToBase64String(inArray));

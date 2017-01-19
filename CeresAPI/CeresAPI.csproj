@@ -141,6 +141,7 @@
   <ItemGroup>
     <Compile Include="ChartDataUpdate.cs" />
     <Compile Include="ChartHub.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -148,6 +149,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\PlantController.cs" />
+    <Compile Include="Models\AccountModel\Account.cs" />
+    <Compile Include="Models\AccountModel\CreateAccount.cs" />
+    <Compile Include="Models\AccountModel\Helper.cs" />
+    <Compile Include="Models\AccountModel\Login.cs" />
+    <Compile Include="Models\connection\connection.cs" />
     <Compile Include="Models\CurrentPlantData.cs" />
     <Compile Include="Models\ObjectIdConverter.cs" />
     <Compile Include="Models\Plant.cs" />

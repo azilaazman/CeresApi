@@ -9,15 +9,15 @@
     <script src="~/signalr/hubs"></script>
 
     <script>
-        $(function (unit, account) {
-            // Reference the auto-generated proxy for the hub.  
-            var chartHub = $.connection.chartHub;
+        //$(function (unit, account) {
+        //    // Reference the auto-generated proxy for the hub.  
+        //    var chartHub = $.connection.chartHub;
 
-            //Call InitChartData     
-            $.connection.hub.start().done(function () {
-                chartHub.server.initChartData(unit, account);
+        //    //Call InitChartData     
+        //    $.connection.hub.start().done(function () {
+        //        chartHub.server.initChartData(unit, account);
 
-            });
+        //    });
 
             //Call to Update LineChart from Server    
             //chartHub.client.updateChart = function (line_data) {
@@ -25,7 +25,7 @@
             //    //UpdatePieChart(pie_data);    //Call the PieChart Update method    
             //};
 
-        });
+        //});
     </script>
     <script src="../Scripts/ChartScript.js"></script>
     

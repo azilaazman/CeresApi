@@ -27,6 +27,6 @@ namespace CeresAPI.Models
         public string salt { get; set; }
 
         [Required]
-        public String API_Key { get; set; }
+        public String unit_id { get; set; }
     }
 }

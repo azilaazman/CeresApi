@@ -9,6 +9,8 @@ namespace CeresAPI.Models
     public class Account
     {
         [BsonId]
+        public BsonObjectId _id { get; set; }
+
         [Required]
         public string name { get; set; }
 

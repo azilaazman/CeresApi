@@ -153,6 +153,7 @@
     <Compile Include="Models\AccountModel\CreateAccount.cs" />
     <Compile Include="Models\AccountModel\Helper.cs" />
     <Compile Include="Models\AccountModel\Login.cs" />
+    <Compile Include="Models\AccountModel\login\LoginObj.cs" />
     <Compile Include="Models\connection\connection.cs" />
     <Compile Include="Models\CurrentPlantData.cs" />
     <Compile Include="Models\ObjectIdConverter.cs" />

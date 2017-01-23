@@ -157,7 +157,7 @@
     <Compile Include="Models\connection\connection.cs" />
     <Compile Include="Models\CurrentPlantData.cs" />
     <Compile Include="Models\ObjectIdConverter.cs" />
-    <Compile Include="Models\Plant.cs" />
+    <Compile Include="Models\GraphPlantData.cs" />
     <Compile Include="Models\PlantData.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

@@ -25,12 +25,12 @@ namespace CeresAPI
             return rnd1.Next(255);
         }
 
-        static public IEnumerable<CurrentPlantData> dataTemp()
+        static public IEnumerable<GraphPlantData> dataTemp()
         {
             var toJson = new WebClient().DownloadString("http://localhost:52781/api/v1/GetAllPlantsValue/5846c5f5f36d282dbc87f8d4");
             string json = Convert.ToString(toJson);
 
-            List<CurrentPlantData> instance = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CurrentPlantData>>(json).ToList();
+            List<GraphPlantData> instance = Newtonsoft.Json.JsonConvert.DeserializeObject<List<GraphPlantData>>(json).ToList();
 
             //List<Data> listData = instance.Cast<Data>().ToList();
             return instance;
@@ -42,7 +42,7 @@ namespace CeresAPI
     public class LineChart
     {
         [JsonProperty("lineChartData")]
-        private IEnumerable<CurrentPlantData> lineChartData;
+        private IEnumerable<GraphPlantData> lineChartData;
 
         [JsonProperty("lineChartArrayTemp")]
         private double[] lineChartArrayTemp;

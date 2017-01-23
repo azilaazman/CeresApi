@@ -137,6 +137,7 @@ namespace CeresAPI.Controllers
 
         }
 
+
         [HttpPost]
         [Route("api/v1/AddPlantData")]
         public async Task<string> AddPlantData([FromBody]PlantData plantData)
@@ -187,6 +188,50 @@ namespace CeresAPI.Controllers
            //return plant_list.ToJson();
             //return plantInfo.ToJson();
 
+        }
+
+        [Route("api/v1/AddNewPlant")]
+        [HttpPost]
+        public string AddNewPlant(CurrentPlantData plant)
+        {
+            try
+            {
+                MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
+                IMongoDatabase db = client.GetDatabase("ceres_unit1");
+
+                var plantInfo = db.GetCollection<BsonDocument>("plant");
+
+
+                BsonDocument plant_Doc = new BsonDocument
+            {
+                    {
+                        "name", plant.name
+                    },
+                    {
+                        "temp", plant.temp
+                    },
+                    {
+                        "humid", plant.humid
+                    },
+                    {
+                        "light", plant.light
+                    },
+                    {
+                        "water", plant.water
+                    },
+                    {
+                        "care", plant.care
+                    }
+
+            };
+                plantInfo.InsertOne(plant_Doc);
+
+                return "ok";
+            }
+            catch
+            {
+                throw;
+            }
         }
 
 

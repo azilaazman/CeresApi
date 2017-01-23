@@ -95,8 +95,10 @@ namespace CeresAPI.Controllers
 
                 var condition = Builders<PlantData>.Filter.Eq("plant_id", id); //get requested unit/plant info
                 //condition = condition & Builders<PlantData>.Filter.Eq("acc_id", acc); //makes sure that this belongs to the user
+
                 //var fields = Builders<PlantData>.Projection.Include(a => a.plant_id);
-                var results = plantInfo.Find(condition).ToList();
+
+                var results = plantInfo.Find(condition).ToList().OrderByDescending(p => p._id.CreationTime).Take(10).ToList();
 
                 return results;
 

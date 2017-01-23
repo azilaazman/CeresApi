@@ -90,7 +90,7 @@ namespace CeresAPI.Controllers
                 MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
                 IMongoDatabase db = client.GetDatabase("ceres_unit1");
 
-                List<PlantData> plantList = new List<PlantData>();
+                //List<PlantData> plantList = new List<PlantData>();
                 var plantInfo = db.GetCollection<PlantData>("plantData");
 
                 var condition = Builders<PlantData>.Filter.Eq("plant_id", id); //get requested unit/plant info
@@ -111,26 +111,28 @@ namespace CeresAPI.Controllers
         }
 
         // GET api/v2/products
-        [HttpGet]
+        [HttpPost]
         [Route("api/v1/getUnitSettings/{id}")]
-        public async Task<string> GetUnitSetting(string id)
+        public List<CurrentPlantData> GetUnitSetting(string id)
         {
             ObjectId objId = ObjectId.Parse(id);
             // connect to mLab
             MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
             IMongoDatabase db = client.GetDatabase("ceres_unit1");
-            List<CurrentPlantData> plant_list = new List<CurrentPlantData>();
+            //List<CurrentPlantData> plant_list = new List<CurrentPlantData>();
             var filter = Builders<CurrentPlantData>.Filter.Eq("_id", objId);
             var plantInfo = db.GetCollection<CurrentPlantData>("plant");
 
-            await plantInfo.Find(filter)
-                 //=> is foreach 
-                 .ForEachAsync(data => plant_list.Add(data));
+            var result = plantInfo.Find(filter).ToList(); 
+
+            //await plantInfo.Find(filter)
+            //     //=> is foreach 
+            //     .ForEachAsync(data => plant_list.Add(data));
             //foreach (Plant plant in allPlants)
             //{
             // plant_list.Add(plant);
             //}
-            return plant_list.ToJson();
+            return result;
             //return plantInfo.ToJson();
 
         }

@@ -8,9 +8,11 @@ using MongoDB.Bson;
 using CeresAPI.Models;
 using System.Net.Http;
 using System.Net;
+using System.Web.Http.Cors;
 
 namespace CeresAPI.Controllers
 {
+    [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
     public class plantController : ApiController
     {
 
@@ -80,7 +82,6 @@ namespace CeresAPI.Controllers
 
         //}
 
-        /*IN-PRODUCTION by Azila*/
         [HttpGet]
         [Route("api/v1/GetAllPlantsValue/{id}")]
         public List<PlantData> getAllPlantsValue(string id)
@@ -98,7 +99,7 @@ namespace CeresAPI.Controllers
 
                 //var fields = Builders<PlantData>.Projection.Include(a => a.plant_id);
 
-                var results = plantInfo.Find(condition).ToList().OrderByDescending(p => p._id.CreationTime).Take(10).ToList();
+                var results = plantInfo.Find(condition).ToList().OrderByDescending(p => p._id.CreationTime).Take(30).ToList();
 
                 return results;
 

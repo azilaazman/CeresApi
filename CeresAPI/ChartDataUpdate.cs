@@ -83,7 +83,7 @@ namespace CeresAPI
                 lineChartArrayPower[i] = double.Parse(item.power);
                 lineChartArrayWater[i] = double.Parse(item.water);
 
-                lineChartTimeArray[i] = item._id.CreationTime.ToShortTimeString();
+                lineChartTimeArray[i] = item._id.CreationTime.ToLocalTime().ToShortTimeString();
                 i++;
             }
 

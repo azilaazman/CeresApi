@@ -27,7 +27,7 @@ namespace CeresAPI
 
         static public IEnumerable<GraphPlantData> dataTemp()
         {
-            var toJson = new WebClient().DownloadString("http://cereswebapi.azurewebsites.net/api/v1/GetAllPlantsValue/5846c5f5f36d282dbc87f8d4");
+            var toJson = new WebClient().DownloadString("http://localhost:52781/api/v1/GetAllPlantsValue/5846c5f5f36d282dbc87f8d4");
             string json = Convert.ToString(toJson);
 
             List<GraphPlantData> instance = Newtonsoft.Json.JsonConvert.DeserializeObject<List<GraphPlantData>>(json).ToList();

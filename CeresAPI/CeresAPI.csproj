@@ -163,7 +163,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\ChartScript.js" />
-    <None Include="cereswebapi - Web Deploy %282%29.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />

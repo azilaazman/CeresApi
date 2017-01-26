@@ -12,7 +12,7 @@ using System.Web.Http.Cors;
 
 namespace CeresAPI.Controllers
 {
-    [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://ceresmonitor.s3-website-ap-southeast-1.amazonaws.com", headers: "*", methods: "*")]
     public class plantController : ApiController
     {
 
@@ -229,6 +229,58 @@ namespace CeresAPI.Controllers
 
                 return "ok";
             }
+            catch
+            {
+                throw;
+            }
+        }
+
+        [Route("api/v1/UpdateUnitSettings/{id}")]
+        [HttpPut]
+        public async Task<string> UpdateUnitSettings(CurrentPlantData plant)
+        {
+            try
+            {
+                MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
+                IMongoDatabase db = client.GetDatabase("ceres_unit1");
+
+                var plantColl = db.GetCollection<BsonDocument>("plant");
+
+
+
+                BsonDocument plant_Doc = new BsonDocument
+            {
+                    {
+                        "name", plant.name
+                    },
+                    {
+                        "temp", plant.temp
+                    },
+                    {
+                        "humid", plant.humid
+                    },
+                    {
+                        "light", plant.light
+                    },
+                    {
+                        "water", plant.water
+                    }
+
+            };
+
+                var result = await plantColl.ReplaceOneAsync(
+                    filter: new BsonDocument("_id", plant._id),
+                    options: new UpdateOptions { IsUpsert = true },
+                    replacement: plant_Doc);
+
+
+
+
+
+                //plantColl.InsertOne(plant_Doc);
+
+                return "ok";
+        }
             catch
             {
                 throw;

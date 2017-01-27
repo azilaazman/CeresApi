@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace CeresAPI
 {
+    [HubName("CustomChartHub")]
     public class ChartHub : Hub
     {
         // Create the instance of ChartDataUpdate    

@@ -12,7 +12,7 @@ using System.Web.Http.Cors;
 
 namespace CeresAPI.Controllers
 {
-    [EnableCors(origins: "http://ceresmonitor.s3-website-ap-southeast-1.amazonaws.com", headers: "*", methods: "*")]
+    //[EnableCors(origins: "http://ceresmonitor.s3-website-ap-southeast-1.amazonaws.com", headers: "*", methods: "*")]
     public class plantController : ApiController
     {
 
@@ -100,6 +100,35 @@ namespace CeresAPI.Controllers
                 //var fields = Builders<PlantData>.Projection.Include(a => a.plant_id);
 
                 var results = plantInfo.Find(condition).ToList().OrderByDescending(p => p._id.CreationTime).Take(30).ToList();
+
+                return results;
+
+            }
+
+            catch
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [Route("api/v1/GetLatestPlantValue/{id}")]
+        public List<PlantData> getLatestPlantValue(string id)
+        {
+            try
+            {
+                MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
+                IMongoDatabase db = client.GetDatabase("ceres_unit1");
+
+                //List<PlantData> plantList = new List<PlantData>();
+                var plantInfo = db.GetCollection<PlantData>("plantData");
+
+                var condition = Builders<PlantData>.Filter.Eq("plant_id", id); //get requested unit/plant info
+                //condition = condition & Builders<PlantData>.Filter.Eq("acc_id", acc); //makes sure that this belongs to the user
+
+                //var fields = Builders<PlantData>.Projection.Include(a => a.plant_id);
+
+                var results = plantInfo.Find(condition).ToList().OrderByDescending(p => p._id.CreationTime).Take(1).ToList();
 
                 return results;
 

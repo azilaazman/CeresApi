@@ -25,6 +25,10 @@ namespace CeresAPI.Models
 
         public int care { get; set; }
 
+        public string startDate { get; set; }
+        
+        public string endDate { get; set; }
+
         
     }
 }

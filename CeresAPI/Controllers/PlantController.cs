@@ -251,6 +251,12 @@ namespace CeresAPI.Controllers
                     },
                     {
                         "care", plant.care
+                    },
+                    {
+                        "startDate", plant.startDate
+                    },
+                    {
+                        "endDate", plant.endDate
                     }
 
             };
@@ -266,8 +272,10 @@ namespace CeresAPI.Controllers
 
         [Route("api/v1/UpdateUnitSettings/{id}")]
         [HttpPut]
-        public async Task<string> UpdateUnitSettings(CurrentPlantData plant)
+        public async Task<string> UpdateUnitSettings(CurrentPlantData plant, string id)
         {
+            ObjectId objId = ObjectId.Parse(id);
+
             try
             {
                 MongoClient client = new MongoClient("mongodb://user:password@ds127428.mlab.com:27428/ceres_unit1");
@@ -293,12 +301,21 @@ namespace CeresAPI.Controllers
                     },
                     {
                         "water", plant.water
+                    },
+                    {
+                        "care", plant.care
+                    },
+                    {
+                        "startDate", plant.startDate
+                    },
+                    {
+                        "endDate", plant.endDate
                     }
 
             };
 
                 var result = await plantColl.ReplaceOneAsync(
-                    filter: new BsonDocument("_id", plant._id),
+                    filter: new BsonDocument("_id", objId),
                     options: new UpdateOptions { IsUpsert = true },
                     replacement: plant_Doc);
 

@@ -235,6 +235,9 @@ namespace CeresAPI.Controllers
                 BsonDocument plant_Doc = new BsonDocument
             {
                     {
+                        "unit_id", plant.unit_id
+                    },
+                    {
                         "name", plant.name
                     },
                     {

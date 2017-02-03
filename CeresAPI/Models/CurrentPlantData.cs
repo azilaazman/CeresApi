@@ -13,6 +13,8 @@ namespace CeresAPI.Models
         [BsonId]
         public ObjectId _id { get; set; }
 
+        public string unit_id { get; set; }
+
         public string name { get; set; }
 
         public double temp { get; set; }
